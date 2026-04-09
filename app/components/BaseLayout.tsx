@@ -6,78 +6,45 @@ export default function BaseLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="flex min-h-screen">
       
       {/* SIDEBAR */}
-      <div style={styles.sidebar}>
-        <h1 style={styles.logo}>DevBoard</h1>
+      <div className="w-56 bg-[#020617] text-white p-5 border-r border-[#1e293b]">
+        <h1 className="text-xl font-bold mb-8">DevBoard</h1>
 
-        <div style={styles.nav}>
-          <div style={styles.navItem}>Dashboard</div>
-          <div style={styles.navItem}>Tasks</div>
-          <div style={styles.navItem}>Settings</div>
+        <div className="flex flex-col gap-2">
+          <div className="px-3 py-2 rounded-md cursor-pointer hover:bg-[#1e293b] transition">
+            Dashboard
+          </div>
+          <div className="px-3 py-2 rounded-md cursor-pointer hover:bg-[#1e293b] transition">
+            Tasks
+          </div>
+          <div className="px-3 py-2 rounded-md cursor-pointer hover:bg-[#1e293b] transition">
+            Settings
+          </div>
         </div>
       </div>
 
       {/* MAIN */}
-      <div style={{ flex: 1 }}>
+      <div className="flex-1 flex flex-col">
         
         {/* HEADER */}
-        <div style={styles.header}>
+        <div className="flex justify-between items-center px-8 py-5 border-b border-[#1e293b] bg-[#0f172a] text-white">
           <div>
-            <h2 style={{ margin: 0 }}>Dashboard</h2>
-            <p style={styles.subText}>
+            <h2 className="text-lg font-semibold">Dashboard</h2>
+            <p className="text-xs text-gray-400">
               {new Date().toDateString()}
             </p>
           </div>
 
-          <div>Ganesh 👋</div>
+          <div className="text-sm">Ganesh 👋</div>
         </div>
 
         {/* CONTENT */}
-        <div style={styles.content}>{children}</div>
+        <div className="p-8 bg-[#0f172a] min-h-screen text-white">
+          {children}
+        </div>
       </div>
     </div>
   );
 }
-
-const styles = {
-  sidebar: {
-    width: "220px",
-    background: "#020617",
-    color: "#fff",
-    padding: "20px",
-    borderRight: "1px solid #1e293b",
-  },
-  logo: {
-    marginBottom: "30px",
-  },
-  nav: {
-    display: "flex",
-    flexDirection: "column" as const,
-    gap: "10px",
-  },
-  navItem: {
-    padding: "10px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "20px 30px",
-    borderBottom: "1px solid #1e293b",
-    background: "#0f172a",
-    color: "#fff",
-  },
-  subText: {
-    fontSize: "12px",
-    color: "#94a3b8",
-  },
-  content: {
-    padding: "30px",
-    background: "#0f172a",
-    minHeight: "100vh",
-    color: "#fff",
-  },
-};

@@ -29,20 +29,20 @@ export default function DashboardPage() {
     <BaseLayout>
       
       {/* CARDS */}
-      <div style={styles.grid}>
-        <div style={styles.card}>
-          <p>Total Tasks</p>
-          <h2>{tasks.length}</h2>
+      <div className="grid grid-cols-3 gap-5 mb-8">
+        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
+          <p className="text-gray-400 text-sm">Total Tasks</p>
+          <h2 className="text-2xl font-bold mt-2">{tasks.length}</h2>
         </div>
 
-        <div style={styles.card}>
-          <p>Completed</p>
-          <h2>{completed}</h2>
+        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
+          <p className="text-gray-400 text-sm">Completed</p>
+          <h2 className="text-2xl font-bold mt-2">{completed}</h2>
         </div>
 
-        <div style={styles.card}>
-          <p>Productivity %</p>
-          <h2>
+        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
+          <p className="text-gray-400 text-sm">Productivity %</p>
+          <h2 className="text-2xl font-bold mt-2">
             {tasks.length
               ? Math.round((completed / tasks.length) * 100)
               : 0}
@@ -51,85 +51,56 @@ export default function DashboardPage() {
       </div>
 
       {/* INPUT */}
-      <div style={styles.inputBox}>
+      <div className="flex gap-3 mb-6">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Add a task..."
-          style={styles.input}
+          className="flex-1 px-3 py-2 rounded-md border border-[#1e293b] bg-[#020617] text-white focus:outline-none focus:border-blue-500"
         />
-        <button onClick={addTask} style={styles.button}>
+        <button
+          onClick={addTask}
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white transition"
+        >
           Add
         </button>
       </div>
 
       {/* TASKS */}
-      <div style={styles.taskList}>
+      <div className="flex flex-col gap-3">
         {tasks.map((task, index) => (
-          <div key={index} style={styles.taskItem}>
+          <div
+            key={index}
+            className="flex justify-between items-center p-3 bg-[#020617] rounded-md border border-[#1e293b]"
+          >
             <span
-              style={{
-                textDecoration: task.done ? "line-through" : "none",
-                color: task.done ? "#94a3b8" : "#fff",
-              }}
+              className={`${
+                task.done
+                  ? "line-through text-gray-500"
+                  : "text-white"
+              }`}
             >
               {task.title}
             </span>
 
-            <div>
-              <button onClick={() => toggleTask(index)}>✔</button>
-              <button onClick={() => deleteTask(index)}>✖</button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => toggleTask(index)}
+                className="text-green-400 hover:scale-110 transition"
+              >
+                ✔
+              </button>
+              <button
+                onClick={() => deleteTask(index)}
+                className="text-red-400 hover:scale-110 transition"
+              >
+                ✖
+              </button>
             </div>
           </div>
         ))}
       </div>
+
     </BaseLayout>
   );
 }
-
-const styles = {
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "20px",
-    marginBottom: "30px",
-  },
-  card: {
-    background: "#020617",
-    padding: "20px",
-    borderRadius: "10px",
-    border: "1px solid #1e293b",
-  },
-  inputBox: {
-    display: "flex",
-    gap: "10px",
-    marginBottom: "20px",
-  },
-  input: {
-    flex: 1,
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #1e293b",
-    background: "#020617",
-    color: "#fff",
-  },
-  button: {
-    padding: "10px 15px",
-    background: "#3b82f6",
-    border: "none",
-    borderRadius: "6px",
-    color: "#fff",
-  },
-  taskList: {
-    display: "flex",
-    flexDirection: "column" as const,
-    gap: "10px",
-  },
-  taskItem: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "12px",
-    background: "#020617",
-    borderRadius: "6px",
-  },
-};
