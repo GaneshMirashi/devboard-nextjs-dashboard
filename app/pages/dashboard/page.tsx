@@ -1,106 +1,71 @@
 "use client";
 
-import BaseLayout from "@/app/components/BaseLayout";
-import { useState } from "react";
+import BaseLayout from "@/app/components/layout/BaseLayout";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+interface Task {
+  id: number;
+  title: string;
+  done: boolean;
+  createdAt: string;
+  createdBy: string;
+}
 
 export default function DashboardPage() {
-  const [tasks, setTasks] = useState<any[]>([]);
-  const [input, setInput] = useState("");
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const pathname = usePathname();
 
-  const addTask = () => {
-    if (!input.trim()) return;
-    setTasks([...tasks, { title: input, done: false }]);
-    setInput("");
-  };
-
-  const deleteTask = (index: number) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
-
-  const toggleTask = (index: number) => {
-    const updated = [...tasks];
-    updated[index].done = !updated[index].done;
-    setTasks(updated);
-  };
+  // ✅ Load tasks on navigation
+  useEffect(() => {
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    } else {
+      setTasks([]);
+    }
+  }, [pathname]);
 
   const completed = tasks.filter((t) => t.done).length;
 
   return (
     <BaseLayout>
-      
-      {/* CARDS */}
-      <div className="grid grid-cols-3 gap-5 mb-8">
-        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
-          <p className="text-gray-400 text-sm">Total Tasks</p>
-          <h2 className="text-2xl font-bold mt-2">{tasks.length}</h2>
-        </div>
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
 
-        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
-          <p className="text-gray-400 text-sm">Completed</p>
-          <h2 className="text-2xl font-bold mt-2">{completed}</h2>
-        </div>
+      {/* Stats */}
+      <p className="mb-6 text-gray-400">
+        Total: {tasks.length} | Completed: {completed}
+      </p>
 
-        <div className="bg-[#020617] p-5 rounded-lg border border-[#1e293b]">
-          <p className="text-gray-400 text-sm">Productivity %</p>
-          <h2 className="text-2xl font-bold mt-2">
-            {tasks.length
-              ? Math.round((completed / tasks.length) * 100)
-              : 0}
-          </h2>
-        </div>
-      </div>
-
-      {/* INPUT */}
-      <div className="flex gap-3 mb-6">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Add a task..."
-          className="flex-1 px-3 py-2 rounded-md border border-[#1e293b] bg-[#020617] text-white focus:outline-none focus:border-blue-500"
-        />
-        <button
-          onClick={addTask}
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white transition"
-        >
-          Add
-        </button>
-      </div>
-
-      {/* TASKS */}
+      {/* Read-only list */}
       <div className="flex flex-col gap-3">
-        {tasks.map((task, index) => (
-          <div
-            key={index}
-            className="flex justify-between items-center p-3 bg-[#020617] rounded-md border border-[#1e293b]"
-          >
-            <span
-              className={`${
-                task.done
-                  ? "line-through text-gray-500"
-                  : "text-white"
-              }`}
+        {tasks.length === 0 ? (
+          <p className="text-gray-500">No tasks available</p>
+        ) : (
+          tasks.map((task) => (
+            <div
+              key={task.id}
+              className="p-3 border bg-[#020617] border-[#1e293b]"
             >
-              {task.title}
-            </span>
+              <p
+                className={`${
+                  task.done ? "line-through text-gray-500" : ""
+                }`}
+              >
+                {task.title}
+              </p>
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => toggleTask(index)}
-                className="text-green-400 hover:scale-110 transition"
-              >
-                ✔
-              </button>
-              <button
-                onClick={() => deleteTask(index)}
-                className="text-red-400 hover:scale-110 transition"
-              >
-                ✖
-              </button>
+              <p className="text-xs text-gray-500 mt-2">
+                Created by: {task.createdBy}
+              </p>
+
+              <p className="text-xs text-gray-500">
+                {new Date(task.createdAt).toLocaleString()}
+              </p>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
-
     </BaseLayout>
   );
 }
