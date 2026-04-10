@@ -1,0 +1,106 @@
+.varientButton {
+    background-color: purple;
+    color: var(--secondary-foreground);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s, box-shadow 0.2s; 
+    /* font-size: 12px; */
+}
+
+/* mandatory field indicator */
+.mandatory {
+    color: red;
+}
+
+/* Active / Enabled state */
+.status-active {
+  background-color: #15803d; /* green */
+  color: #ffffff; /* white text */
+  border-radius: 9999px; /* fully rounded pill shape */
+  padding: 0.25rem 0.75rem; /* compact padding (4px 12px) */
+  font-size: 12px; /* text-sm */
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Inactive / Disabled state */
+.status-inactive {
+  background-color: #b91c1c; /* red */
+  color: #ffffff; /* white text */
+  border-radius: 9999px; /* fully rounded pill shape */
+  padding: 0.25rem 0.75rem;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.status-resubmission {
+  background-color: #f59e0b; /* yellow */
+  color: #ffffff; /* white text */
+  border-radius: 9999px; /* fully rounded pill shape */
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}   
+
+.status-underreview {
+  background-color: #3b82f6; /* blue */
+  color: #ffffff; /* white text */
+  border-radius: 9999px; /* fully rounded pill shape */
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}   
+
+
+
+/* MULTI SELECT - Gradient Border Dark Theme */
+.multi-select-dropdown {
+  background-color: #0B0B0B;
+  color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.75rem;
+
+  /* Gradient Border */
+  background-image: linear-gradient(#0B0B0B, #0B0B0B),
+                    linear-gradient(to right, #7746F4, #D94C75);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: 0.25s ease;
+}
+
+.multi-select-dropdown:hover,
+.multi-select-dropdown:focus {
+  background-image: linear-gradient(#0B0B0B, #0B0B0B),
+                    linear-gradient(to right, #7746F4, #D94C75);
+  box-shadow: 0 0 6px rgba(119, 70, 244, 0.4);
+}
+
+
+
+.step-parameters-container .card {
+  border: 1px solid #e5e7eb !important; /* Light gray border */
+  border-radius: 0.75rem; /* Matches your var */
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.step-parameters-container .card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+}

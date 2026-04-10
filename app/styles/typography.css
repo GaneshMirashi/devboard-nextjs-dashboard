@@ -1,0 +1,93 @@
+p,
+span,
+div,
+li,
+label,
+input,
+textarea,
+select,
+button,
+td,
+th,
+a {
+  font-size: 14px;
+  font-weight: 400; /* Regular */
+  /* color: #FFFFFF; */
+  line-height: 1.5;
+}
+
+/* ================================
+   HEADINGS
+=================================== */
+
+/* Main Heading - Poppins SemiBold 18px */
+h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* Sub Heading - Poppins SemiBold 16px */
+h2,
+h3,
+h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* ================================
+   STRONG / BOLD / EMPHASIS
+=================================== */
+
+/* Strong & Bold - Poppins Bold */
+strong,
+b,
+.font-bold {
+  font-weight: 700 !important;
+  color: #FFFFFF;
+}
+
+/* Medium weight (for labels, subtitles) */
+.font-medium {
+  font-weight: 500 !important;
+}
+
+/* SemiBold */
+.font-semibold {
+  font-weight: 600 !important;
+}
+
+/* Emphasis / Italic - keep Poppins but italic */
+em,
+i {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Labels (form labels, etc.) - Poppins Medium 14px */
+label,
+.Label,
+[data-slot="label"] {
+  font-size: 14px;
+  font-weight: 500;
+  
+}
+
+
+
+/* ================================
+   FORM ELEMENTS
+=================================== */
+input,
+textarea,
+select {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  color: #9CA3AF;
+}

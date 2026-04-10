@@ -1,0 +1,36 @@
+/* scrollbar hide */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+
+.metadata-card {
+  background-color: rgba(15, 23, 42, 0.3); /* slate-900/50 */
+  border: 1px solid #1e293b; /* slate-800 */
+  border-radius: 1rem; /* rounded-xl */
+  padding: 1.5rem; /* p-6 */
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* gap-4 */
+  color: #ffffff;
+}
+
+/* rounded cards / dark border */
+.card {
+  background: #0f141a;
+  border: 1px solid #1a1f24;
+}
+
+/* input focus styles */
+input:focus, select:focus {
+  outline: none;
+  border-color: #8252ff;
+  box-shadow: 0 0 0 2px rgba(130, 82, 255, 0.4);
+}
+
