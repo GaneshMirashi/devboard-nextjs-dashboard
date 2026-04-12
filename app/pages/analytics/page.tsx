@@ -1,9 +1,11 @@
+import BaseLayout from "@/app/components/layout/BaseLayout";
 import Insights from "./Insights";
 import ChartsSection from "./StatsCards";
 import StatsCards from "./StatsCards";
 
 export default function AnalyticsPage() {
   return (
+    <BaseLayout>
     <div className="p-6 space-y-6">
       {/* Title */}
       <h1 className="text-2xl font-semibold">Analytics</h1>
@@ -17,5 +19,6 @@ export default function AnalyticsPage() {
       {/* Insights */}
       <Insights />
     </div>
+    </BaseLayout>
   );
 }
