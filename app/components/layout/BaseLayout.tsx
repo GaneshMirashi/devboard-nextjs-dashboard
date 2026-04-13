@@ -43,6 +43,17 @@ export default function BaseLayout({
           </Link>
 
           <Link
+            href="/pages/analytics"
+            className={`px-3 py-2 rounded-md cursor-pointer transition ${
+              pathname === "/pages/analytics"
+                ? "bg-[#1e293b] text-white"
+                : "hover:bg-[#1e293b] text-gray-400"
+            }`}
+          >
+            Analytics
+          </Link>
+
+          <Link
             href="/pages/settings"
             className={`px-3 py-2 rounded-md cursor-pointer transition ${
               pathname === "/pages/settings"

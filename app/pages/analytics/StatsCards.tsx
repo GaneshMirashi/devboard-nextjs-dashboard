@@ -1,25 +1,33 @@
-export default function ChartsSection() {
-  return (
-    <div className="grid md:grid-cols-2 gap-6">
-      {/* Bar Chart */}
-      <div className="h-64 rounded-2xl border p-4 bg-[#020617]">
-        <h3 className="text-sm text-gray-500 mb-2">
-          Tasks Completed (Last 7 Days)
-        </h3>
-        <div className="flex items-center justify-center h-full text-gray-400">
-          Bar Chart Placeholder
-        </div>
-      </div>
+"use client";
 
-      {/* Pie Chart */}
-      <div className="h-64 rounded-2xl border p-4 bg-[#020617]">
-        <h3 className="text-sm text-gray-500 mb-2">
-          Task Distribution
-        </h3>
-        <div className="flex items-center justify-center h-full text-gray-400">
-          Pie Chart Placeholder
+import { useAnalytics } from "@/app/hooks/useAnalytics";
+
+export default function StatsCards() {
+  const {
+    totalTasks,
+    completedTasks,
+    pendingTasks,
+    productivity,
+  } = useAnalytics();
+
+  const stats = [
+    { title: "Total Tasks", value: totalTasks },
+    { title: "Completed", value: completedTasks },
+    { title: "Pending", value: pendingTasks },
+    { title: "Productivity", value: `${productivity}%` },
+  ];
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {stats.map((item) => (
+        <div
+          key={item.title}
+          className="p-4 rounded-2xl border bg-[#020617]"
+        >
+          <p className="text-sm text-gray-400">{item.title}</p>
+          <h2 className="text-xl font-semibold mt-2">{item.value}</h2>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
