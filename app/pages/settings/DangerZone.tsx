@@ -1,32 +1,36 @@
 "use client";
 
-import { useToast } from "@/app/components/toast/ToastProvider";
+import { toast } from "sonner";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function DangerZone() {
-  const { showToast } = useToast();
-
   const handleClear = () => {
     localStorage.removeItem("tasks");
-    showToast("All tasks cleared successfully", "success");
+    toast.success("All tasks cleared successfully");
   };
 
   return (
-    <div className="p-5 rounded-2xl border border-red-500/30 bg-red-500/5 space-y-4">
-      
-      <h2 className="text-lg font-medium text-red-400">
-        Danger Zone
-      </h2>
+    <Card>
+      <CardHeader>
+        <CardTitle>Danger Zone</CardTitle>
+      </CardHeader>
 
-      <p className="text-sm text-[var(--muted)]">
-        This action will permanently delete all your tasks. This cannot be undone.
-      </p>
+      <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          This will permanently delete all your tasks.
+        </p>
 
-      <button
-        onClick={handleClear}
-        className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 transition text-white text-sm"
-      >
-        Clear All Tasks
-      </button>
-    </div>
+        <Button variant="destructive" onClick={handleClear}>
+          Clear All Tasks
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

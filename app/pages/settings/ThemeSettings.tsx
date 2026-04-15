@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useToast } from "@/app/components/toast/ToastProvider";
+import { toast } from "sonner";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function ThemeSettings() {
   const [dark, setDark] = useState(false);
-  const { showToast } = useToast();
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") === "dark";
@@ -20,24 +27,24 @@ export default function ThemeSettings() {
     localStorage.setItem("theme", newTheme ? "dark" : "light");
     document.documentElement.classList.toggle("dark", newTheme);
 
-    showToast(`Switched to ${newTheme ? "Dark" : "Light"} mode`, "info");
+    toast(`Switched to ${newTheme ? "Dark" : "Light"} mode`);
   };
 
   return (
-    <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] space-y-4">
-      
-      <h2 className="text-lg font-medium">Appearance</h2>
+    <Card>
+      <CardHeader>
+        <CardTitle>Appearance</CardTitle>
+      </CardHeader>
 
-      <p className="text-sm text-[var(--muted)]">
-        Toggle between light and dark themes
-      </p>
+      <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          Toggle between light and dark themes
+        </p>
 
-      <button
-        onClick={toggleTheme}
-        className="px-4 py-2 rounded-lg bg-[var(--primary)] hover:opacity-90 transition text-white text-sm"
-      >
-        Switch to {dark ? "Light" : "Dark"} Mode
-      </button>
-    </div>
+        <Button onClick={toggleTheme}>
+          Switch to {dark ? "Light" : "Dark"} Mode
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
