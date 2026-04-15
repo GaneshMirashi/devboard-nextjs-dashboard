@@ -1,4 +1,6 @@
 import "./globals.css";
+import { ToastProvider } from "./components/toast/ToastProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -7,7 +9,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ToastProvider>
+          <Toaster />
+        {children}
+        </ToastProvider>  
+        </body>
     </html>
   );
 }
