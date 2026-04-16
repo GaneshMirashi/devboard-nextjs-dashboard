@@ -4,6 +4,9 @@ import BaseLayout from "@/app/components/layout/BaseLayout";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
 interface Task {
   id: number;
   title: string;
@@ -16,7 +19,7 @@ export default function DashboardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const pathname = usePathname();
 
-  // ✅ Load tasks on navigation
+  // Load tasks
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
     if (saved) {
@@ -27,44 +30,86 @@ export default function DashboardPage() {
   }, [pathname]);
 
   const completed = tasks.filter((t) => t.done).length;
+  const pending = tasks.length - completed;
 
   return (
     <BaseLayout>
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <div className="space-y-6">
 
-      {/* Stats */}
-      <p className="mb-6 text-gray-400">
-        Total: {tasks.length} | Completed: {completed}
-      </p>
+        {/* Title */}
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
 
-      {/* Read-only list */}
-      <div className="flex flex-col gap-3">
-        {tasks.length === 0 ? (
-          <p className="text-gray-500">No tasks available</p>
-        ) : (
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              className="p-3 border bg-[#020617] border-[#1e293b]"
-            >
-              <p
-                className={`${
-                  task.done ? "line-through text-gray-500" : ""
-                }`}
-              >
-                {task.title}
-              </p>
+        {/* Stats Cards */}
+        <div className="grid md:grid-cols-3 gap-4">
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Total Tasks</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-bold">{tasks.length}</p>
+            </CardContent>
+          </Card>
 
-              <p className="text-xs text-gray-500 mt-2">
-                Created by: {task.createdBy}
-              </p>
+          <Card>
+            <CardHeader>
+              <CardTitle>Completed</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-bold">{completed}</p>
+            </CardContent>
+          </Card>
 
-              <p className="text-xs text-gray-500">
-                {new Date(task.createdAt).toLocaleString()}
-              </p>
-            </div>
-          ))
-        )}
+          <Card>
+            <CardHeader>
+              <CardTitle>Pending</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-2xl font-bold">{pending}</p>
+            </CardContent>
+          </Card>
+
+        </div>
+
+        {/* Task List */}
+        <div className="space-y-3">
+          {tasks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No tasks available
+            </p>
+          ) : (
+            tasks.map((task) => (
+              <Card key={task.id}>
+                <CardContent className="p-4 space-y-2">
+
+                  {/* Title */}
+                  <p
+                    className={`text-sm ${
+                      task.done
+                        ? "line-through text-muted-foreground"
+                        : ""
+                    }`}
+                  >
+                    {task.title}
+                  </p>
+
+                  {/* Meta */}
+                  <div className="text-xs text-muted-foreground">
+                    <p>By {task.createdBy}</p>
+                    <p>{new Date(task.createdAt).toLocaleString()}</p>
+                  </div>
+
+                  {/* Status */}
+                  <Badge variant={task.done ? "default" : "secondary"}>
+                    {task.done ? "Completed" : "Pending"}
+                  </Badge>
+
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+
       </div>
     </BaseLayout>
   );

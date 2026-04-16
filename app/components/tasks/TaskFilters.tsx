@@ -1,3 +1,10 @@
+"use client";
+
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group";
+
 export default function TaskFilters({
   filter,
   setFilter,
@@ -6,18 +13,15 @@ export default function TaskFilters({
   setFilter: (f: string) => void;
 }) {
   return (
-    <div className="flex gap-3 mt-4">
-      {["all", "completed", "pending"].map((f) => (
-        <button
-          key={f}
-          onClick={() => setFilter(f)}
-          className={`px-3 py-1 rounded ${
-            filter === f ? "bg-blue-600" : "bg-[#020617]"
-          }`}
-        >
-          {f}
-        </button>
-      ))}
-    </div>
+    <ToggleGroup
+      type="single"
+      value={filter}
+      onValueChange={(val) => val && setFilter(val)}
+      className="mt-4"
+    >
+      <ToggleGroupItem value="all">All</ToggleGroupItem>
+      <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
+      <ToggleGroupItem value="pending">Pending</ToggleGroupItem>
+    </ToggleGroup>
   );
 }

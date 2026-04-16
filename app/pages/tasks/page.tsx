@@ -2,7 +2,15 @@
 
 import BaseLayout from "@/app/components/layout/BaseLayout";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { toast } from "sonner";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface Task {
   id: number;
@@ -13,22 +21,24 @@ interface Task {
 }
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("tasks");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    }
-    return [];
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [value, setValue] = useState("");
-  const pathname = usePathname();
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // ✅ Save tasks
+  // Load tasks
   useEffect(() => {
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    }
+    setIsLoaded(true); // ✅ mark loaded
+  }, []);
+
+  // Save tasks
+  useEffect(() => {
+    if (!isLoaded) return; // 🚨 prevent overwrite
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  }, [tasks, isLoaded]);
 
   // ➕ Add
   const addTask = () => {
@@ -44,8 +54,7 @@ export default function TasksPage() {
 
     setTasks((prev) => [...prev, newTask]);
     setValue("");
-
-    alert("✅ Task created");
+    toast.success("Task created");
   };
 
   // 🔁 Toggle
@@ -60,7 +69,7 @@ export default function TasksPage() {
   // ❌ Delete
   const deleteTask = (id: number) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
-    alert("🗑️ Deleted");
+    toast.success("Task deleted");
   };
 
   // ✏️ Edit
@@ -74,72 +83,87 @@ export default function TasksPage() {
       )
     );
 
-    alert("✏️ Updated");
+    toast.success("Task updated");
   };
 
   return (
     <BaseLayout>
-      <h1 className="text-3xl font-bold mb-6">Tasks</h1>
+      <div className="space-y-6">
 
-      {/* Add */}
-      <div className="flex gap-3 mb-6">
-        <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="flex-1 px-4 py-2 bg-[#020617] border border-[#1e293b]"
-          placeholder="Enter task..."
-        />
-        <button onClick={addTask} className="bg-blue-600 px-4 py-2">
-          Add
-        </button>
-      </div>
+        {/* Header */}
+        <h1 className="text-2xl font-semibold">Tasks</h1>
 
-      {/* List */}
-      <div className="flex flex-col gap-3">
-        {tasks.length === 0 ? (
-          <p className="text-gray-500">No tasks</p>
-        ) : (
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              className="p-3 border bg-[#020617] border-[#1e293b]"
-            >
-              <div className="flex justify-between">
-                <p
-                  onClick={() => toggleTask(task.id)}
-                  className={`cursor-pointer ${
-                    task.done ? "line-through text-gray-500" : ""
-                  }`}
-                >
-                  {task.title}
-                </p>
+        {/* Add Task */}
+        <div className="flex gap-3">
+          <Input
+            placeholder="Enter task..."
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <Button onClick={addTask}>Add</Button>
+        </div>
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => editTask(task.id)}
-                    className="text-yellow-400"
-                  >
-                    Edit
-                  </button>
+        {/* Task List */}
+        <div className="space-y-3">
+          {tasks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No tasks yet
+            </p>
+          ) : (
+            tasks.map((task) => (
+              <Card key={task.id}>
+                <CardContent className="p-4 space-y-3">
 
-                  <button
-                    onClick={() => deleteTask(task.id)}
-                    className="text-red-400"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+                  {/* Top Row */}
+                  <div className="flex items-center justify-between">
+                    <p
+                      onClick={() => toggleTask(task.id)}
+                      className={`cursor-pointer text-sm ${task.done
+                        ? "line-through text-muted-foreground"
+                        : ""
+                        }`}
+                    >
+                      {task.title}
+                    </p>
 
-              <p className="text-xs text-gray-500 mt-2">
-                Created by: {task.createdBy}
-              </p>
-              <p className="text-xs text-gray-500">
-                {new Date(task.createdAt).toLocaleString()}
-              </p>
-            </div>
-          ))
-        )}
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => editTask(task.id)}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => deleteTask(task.id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Bottom Row */}
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>By {task.createdBy}</span>
+
+                    <span>
+                      {new Date(task.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+
+                  {/* Status */}
+                  <Badge variant={task.done ? "default" : "secondary"}>
+                    {task.done ? "Completed" : "Pending"}
+                  </Badge>
+
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
     </BaseLayout>
   );

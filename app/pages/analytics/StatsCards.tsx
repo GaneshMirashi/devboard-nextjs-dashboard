@@ -1,6 +1,12 @@
 "use client";
 
 import { useAnalytics } from "@/app/hooks/useAnalytics";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function StatsCards() {
   const {
@@ -20,13 +26,16 @@ export default function StatsCards() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {stats.map((item) => (
-        <div
-          key={item.title}
-          className="p-4 rounded-2xl border bg-[#020617]"
-        >
-          <p className="text-sm text-gray-400">{item.title}</p>
-          <h2 className="text-xl font-semibold mt-2">{item.value}</h2>
-        </div>
+        <Card key={item.title}>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              {item.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">{item.value}</p>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );

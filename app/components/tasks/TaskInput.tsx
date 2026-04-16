@@ -1,4 +1,8 @@
+"use client";
+
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function TaskInput({
   onAdd,
@@ -7,22 +11,23 @@ export default function TaskInput({
 }) {
   const [value, setValue] = useState("");
 
+  const handleAdd = () => {
+    if (!value.trim()) return;
+    onAdd(value);
+    setValue("");
+  };
+
   return (
     <div className="flex gap-3">
-      <input
+      <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="flex-1 px-4 py-2 rounded bg-[#020617] border border-[#1e293b]"
+        placeholder="Enter task..."
       />
-      <button
-        onClick={() => {
-          onAdd(value);
-          setValue("");
-        }}
-        className="bg-blue-600 px-4 py-2 rounded"
-      >
+
+      <Button onClick={handleAdd}>
         Add
-      </button>
+      </Button>
     </div>
   );
 }

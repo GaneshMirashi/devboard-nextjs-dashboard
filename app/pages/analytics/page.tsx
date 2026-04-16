@@ -6,19 +6,13 @@ import StatsCards from "./StatsCards";
 export default function AnalyticsPage() {
   return (
     <BaseLayout>
-    <div className="p-6 space-y-6">
-      {/* Title */}
-      <h1 className="text-2xl font-semibold">Analytics</h1>
+      <div className="space-y-6">
+        <h1 className="text-2xl font-semibold">Analytics</h1>
 
-      {/* Stats Cards */}
-      <StatsCards />
-
-      {/* Charts */}
-      <ChartsSection />
-
-      {/* Insights */}
-      <Insights />
-    </div>
+        <StatsCards />
+        <ChartsSection />
+        <Insights />
+      </div>
     </BaseLayout>
   );
 }

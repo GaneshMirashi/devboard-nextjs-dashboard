@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 DevBoard – Task Management Dashboard
 
-## Getting Started
+A modern **task management dashboard** built using **Next.js (App Router)** and **shadcn/ui**, designed to help developers track tasks, analyze productivity, and manage workflows efficiently.
 
-First, run the development server:
+---
 
+## ✨ Features
+
+- ✅ Create, edit, delete tasks  
+- 🔁 Mark tasks as completed / pending  
+- 📊 Analytics dashboard (charts + insights)  
+- 📅 Last 7 days productivity tracking  
+- 🎯 Real-time stats (total, completed, pending, productivity %)  
+- 🌙 Light / Dark mode support  
+- 🔔 Toast notifications (success, error, info)  
+- 💾 LocalStorage-based persistence (no backend required)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js (App Router)  
+- **UI:** shadcn/ui + Tailwind CSS  
+- **Charts:** Recharts  
+- **State:** React Hooks  
+- **Storage:** Browser LocalStorage  
+
+---
+
+## 📁 Project Structure
+
+
+app/
+├── pages/
+│ ├── dashboard/
+│ ├── tasks/
+│ ├── analytics/
+│ └── settings/
+├── components/
+│ ├── layout/
+│ ├── tasks/
+│ ├── analytics/
+│ └── toast/
+├── hooks/
+│ ├── useTasks.ts
+│ └── useAnalytics.ts
+└── globals.css
+
+components/
+└── ui/ # shadcn components
+
+lib/
+└── utils.ts
+
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Install dependencies
 ```bash
+npm install
+2. Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open 👉 http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🧠 How It Works
+Tasks are stored in localStorage
+Analytics is calculated using:
+completed tasks
+task creation timestamps
+Dashboard and analytics update automatically
+📊 Modules Overview
+🏠 Dashboard
+Overview of all tasks
+Read-only task list
+Quick stats
+✅ Tasks
+Add, edit, delete tasks
+Mark as completed/pending
+Real-time updates
+📈 Analytics
+Area chart → last 7 days productivity
+Pie chart → completed vs pending
+Insights section
+⚙️ Settings
+Update user name
+Toggle dark/light mode
+Clear all tasks (danger zone)
+⚠️ Notes
+This project currently uses localStorage
+Data will be lost if browser storage is cleared
+No backend/database integration yet

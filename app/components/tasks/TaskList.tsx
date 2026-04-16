@@ -16,7 +16,7 @@ export default function TaskList({
 }) {
   if (tasks.length === 0) {
     return (
-      <p className="text-gray-500 text-center py-10">
+      <p className="text-sm text-muted-foreground text-center py-10">
         No tasks found
       </p>
     );
