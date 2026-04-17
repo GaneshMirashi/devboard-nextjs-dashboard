@@ -11,6 +11,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface Task {
   id: number;
@@ -24,6 +25,8 @@ export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [value, setValue] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [editValue, setEditValue] = useState("");
 
   // Load tasks
   useEffect(() => {
@@ -73,16 +76,24 @@ export default function TasksPage() {
   };
 
   // ✏️ Edit
-  const editTask = (id: number) => {
-    const newTitle = prompt("Edit task");
-    if (!newTitle) return;
+  const openEdit = (task: Task) => {
+    setEditingTask(task);
+    setEditValue(task.title);
+  };
+
+  const saveEdit = () => {
+    if (!editValue.trim() || !editingTask) return;
 
     setTasks((prev) =>
       prev.map((t) =>
-        t.id === id ? { ...t, title: newTitle } : t
+        t.id === editingTask.id
+          ? { ...t, title: editValue }
+          : t
       )
     );
 
+    setEditingTask(null);
+    setEditValue("");
     toast.success("Task updated");
   };
 
@@ -115,55 +126,83 @@ export default function TasksPage() {
                 <CardContent className="p-4 space-y-3">
 
                   {/* Top Row */}
+                  {/* Top Row */}
                   <div className="flex items-center justify-between">
                     <p
-                      onClick={() => toggleTask(task.id)}
-                      className={`cursor-pointer text-sm ${task.done
-                        ? "line-through text-muted-foreground"
-                        : ""
+                      className={`text-sm ${task.done ? "line-through text-muted-foreground" : ""
                         }`}
                     >
                       {task.title}
                     </p>
 
-                    <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => editTask(task.id)}
-                      >
-                        Edit
-                      </Button>
-
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => deleteTask(task.id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                    <Badge variant={task.done ? "default" : "secondary"}>
+                      {task.done ? "Completed" : "Pending"}
+                    </Badge>
                   </div>
 
                   {/* Bottom Row */}
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>By {task.createdBy}</span>
-
-                    <span>
-                      {new Date(task.createdAt).toLocaleString()}
-                    </span>
+                    <span>{new Date(task.createdAt).toLocaleString()}</span>
                   </div>
 
-                  {/* Status */}
-                  <Badge variant={task.done ? "default" : "secondary"}>
-                    {task.done ? "Completed" : "Pending"}
-                  </Badge>
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-2 flex-wrap">
+
+                    {/* ✅ Complete Button */}
+                    <Button
+                      size="sm"
+                      variant={task.done ? "outline" : "default"}
+                      onClick={() => toggleTask(task.id)}
+                    >
+                      {task.done ? "Undo" : "Mark Complete"}
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={() => openEdit(task)}
+                    >
+                      Edit
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => deleteTask(task.id)}
+                    >
+                      Delete
+                    </Button>
+
+                  </div>
 
                 </CardContent>
               </Card>
             ))
           )}
         </div>
+        <Dialog open={!!editingTask} onOpenChange={() => setEditingTask(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Task</DialogTitle>
+            </DialogHeader>
+
+            <Input
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              placeholder="Update task..."
+            />
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setEditingTask(null)}>
+                Cancel
+              </Button>
+              <Button onClick={saveEdit}>
+                Save
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </BaseLayout>
   );

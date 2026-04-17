@@ -22,17 +22,22 @@ export default function TaskItem({
     <Card>
       <CardContent className="p-4 space-y-3">
 
-        {/* Title */}
-        <p
-          onClick={() => !readOnly && onToggle?.(task.id)}
-          className={`text-sm ${
-            task.done
-              ? "line-through text-muted-foreground"
-              : ""
-          } ${!readOnly ? "cursor-pointer" : ""}`}
-        >
-          {task.title}
-        </p>
+        {/* Top Row */}
+        <div className="flex items-center justify-between">
+          <p
+            className={`text-sm ${
+              task.done
+                ? "line-through text-muted-foreground"
+                : ""
+            }`}
+          >
+            {task.title}
+          </p>
+
+          <Badge variant={task.done ? "default" : "secondary"}>
+            {task.done ? "Completed" : "Pending"}
+          </Badge>
+        </div>
 
         {/* Info */}
         <div className="text-xs text-muted-foreground space-y-1">
@@ -40,14 +45,19 @@ export default function TaskItem({
           <p>{new Date(task.createdAt).toLocaleString()}</p>
         </div>
 
-        {/* Status */}
-        <Badge variant={task.done ? "default" : "secondary"}>
-          {task.done ? "Completed" : "Pending"}
-        </Badge>
-
         {/* Actions */}
         {!readOnly && (
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-2 flex-wrap">
+
+            {/* ✅ Toggle Button */}
+            <Button
+              size="sm"
+              variant={task.done ? "outline" : "default"}
+              onClick={() => onToggle?.(task.id)}
+            >
+              {task.done ? "Undo" : "Mark Complete"}
+            </Button>
+
             <Button
               size="sm"
               variant="outline"
